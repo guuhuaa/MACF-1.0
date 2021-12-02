@@ -1,6 +1,4 @@
-## MACF: A novel method for multiple nucleotide sequence
-alignment based on clustering and FM-index
-
+## MACF: A novel method for multiple nucleotide sequence alignment based on clustering and FM-index
 [website](http://lab.malab.cn/~cjt/MSA)
 
 ### Usage
@@ -38,6 +36,10 @@ usage: java -jar jmsa-**.jar  [-m] mode [-i] path [-o] path
   inital version
   
 
-### Development Environment
+### Dependencies
 
-- JDK 1.8
+MACF requires JDK environment (version >= 8.0).
+
+- [Download JDK](https://www.oracle.com/java/technologies/downloads/)
+
+- [Installation Guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html)
