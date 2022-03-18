@@ -1,6 +1,10 @@
 ## MACF: A novel method for multiple nucleotide sequence alignment based on clustering and FM-index
 [website](http://lab.malab.cn/~cjt/MSA)
 
+### Sequence clustering
+
+[CLUSTAR](https://github.com/Guuhua/CLUSTAR)
+
 ### Usage
 
 ```shell
