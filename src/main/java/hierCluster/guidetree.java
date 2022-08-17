@@ -21,18 +21,16 @@ public class guidetree {
         // compute similarity matrix
         if (mode.equals("cluster")) {
             clusterTree cTree = new clusterTree(strs);
-            return cTree.TreeList.toArray(new int[cTree.TreeList.size()][]);
+            return cTree.TreeList.toArray(new int[0][]);
         }
         strsdist sdist = new strsdist(strs, "kmer");
         double[][] simMatrix = sdist.getDismatrix2D();
         if (mode.equals("upgma")) {
             upgma htree = new upgma(simMatrix);
-            htree.genTree();
-            return htree.TreeList.toArray(new int[htree.TreeList.size()][3]);
+            return htree.TreeList.toArray(new int[0][]);
         } else if (mode.equals("nj")) {
             NeighborJoining nJtree = new NeighborJoining(simMatrix, silent);
-            nJtree.genTree();
-            return nJtree.TreeList.toArray(new int[nJtree.TreeList.size()][3]);
+            return nJtree.TreeList.toArray(new int[0][]);
         } else {
             throw new IllegalArgumentException("unknown mode: " + mode);
         }

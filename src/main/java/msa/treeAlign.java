@@ -8,7 +8,7 @@ import hierCluster.clusterTree;
 import hierCluster.guidetree;
 import io.string;
 import measure.*;
-import psa.PSA;
+import psa.profileAlign;
 
 public class treeAlign {
     private String[] straligned;
@@ -22,11 +22,38 @@ public class treeAlign {
      * output
      */
     public treeAlign(String[] strs, String treemode, boolean silent) {
+        // 序列数目
         this.num = strs.length;
+        // 是否输出比对过程
         this.silent = silent;
+        // 数据是否已经被对齐
         this.aligned = false;
+        // 构建指导树的模式
         this.Treemode = treemode;
+        // 得到一个合适的k值初始值
         this.kk = score.getK(strs, false);
+        // 对齐序列
+        Align(strs);
+        reOrder();
+    }
+
+
+        /**
+     * Choose one Gen tree mode "nj" or "upgma" or "cluster" and choose silent or
+     * output
+     */
+    public treeAlign(String[] strs, String treemode, boolean silent, int kk) {
+        // 序列数目
+        this.num = strs.length;
+        // 是否输出比对过程
+        this.silent = silent;
+        // 数据是否已经被对齐
+        this.aligned = false;
+        // 构建指导树的模式
+        this.Treemode = treemode;
+        // 得到一个合适的k值初始值
+        this.kk = kk;
+        // 对齐序列
         Align(strs);
         reOrder();
     }
@@ -56,7 +83,49 @@ public class treeAlign {
     public int getK() {
         return kk;
     }
- 
+
+    private void Align(String[] strs) {
+        // 1.build tree
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (!silent) {
+            System.out.println("[" + sdf.format(new Date()) + "] building the " + Treemode + " tree");
+        }
+        int[][] treeList = genTreeList(strs);
+        HashMap<Integer, String[]> strsList = new HashMap<>();
+        HashMap<Integer, int[]> labelsList = new HashMap<>();
+        if (!silent) {
+            System.out.println("[" + sdf.format(new Date()) + "] Done.");
+        }
+        // 2.align
+        if (!silent) {
+            System.out.println("[" + sdf.format(new Date()) + "] aligning...");
+        }
+        char[] alphabet = kmer.Counter(strs);
+        int len = treeList.length, i = 0;
+        for (int[] readyAlign : treeList) {
+            String outToScreen = "  " + (i + 1) + " / " + len;
+            if (!silent) {
+                System.out.print(outToScreen);
+            }
+            String[] strsA = getStrsList(strs, strsList, readyAlign[0]);
+            String[] strsB = getStrsList(strs, strsList, readyAlign[1]);
+            strsList.put(readyAlign[2], profileAlign.Align(strsA, strsB, alphabet, kk));
+            labelsList.put(readyAlign[2], combineLabels(labelsList, readyAlign[0], readyAlign[1]));
+            labelsList.remove(readyAlign[0]);
+            labelsList.remove(readyAlign[1]);
+
+            i++;
+            if (!silent) {
+                System.out.print(string.repeat("\b", outToScreen.length()));
+            }
+        }
+        this.orders = labelsList.get(treeList[treeList.length - 1][2]);
+        this.straligned = strsList.get(treeList[treeList.length - 1][2]);
+        if (!silent) {
+            System.out.println("[" + sdf.format(new Date()) + "] Done.");
+        }
+    }
+
     private int[] combineLabels(HashMap<Integer, int[]> labelsList, int l1, int l2) {
         int[] listL1 = l1 < num ? new int[] { l1 } : labelsList.get(l1);
         int[] listL2 = l2 < num ? new int[] { l2 } : labelsList.get(l2);
@@ -84,6 +153,7 @@ public class treeAlign {
     }
 
     private int[][] genTreeList(String[] strs) {
+        // 未对齐的和对齐的两种生成树的方式
         if (!aligned) {
             guidetree gTree = new guidetree(strs, this.Treemode);
             return gTree.genTreeList(silent);
@@ -95,52 +165,5 @@ public class treeAlign {
 
     private String[] getStrsList(String[] strs, HashMap<Integer, String[]> strsList, int key) {
         return key < this.num ? new String[] { strs[key] } : strsList.remove(key);
-    }
-
-
-    private String[] profileAlign(String[] A, String[] B, char[] alphabet) {
-        PSA psa;
-        if (A.length == 1 && B.length == 1) {
-            psa = new PSA(A[0], B[0]);
-        } else {
-            psa = new PSA(A, B, alphabet, kk);
-        }
-        return psa.getAlign();
-    }
-
-    private void Align(String[] strs) {
-        // 1.build tree
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (!silent)
-            System.out.println("[" + sdf.format(new Date()) + "] building the " + Treemode + " tree");
-        int[][] treeList = genTreeList(strs);
-        HashMap<Integer, String[]> strsList = new HashMap<>();
-        HashMap<Integer, int[]> labelsList = new HashMap<>();
-        if (!silent)
-            System.out.println("[" + sdf.format(new Date()) + "] Done.");
-        // 2.align
-        if (!silent)
-            System.out.println("[" + sdf.format(new Date()) + "] aligning...");
-        char[] alphabet = kmer.Counter(strs);
-        int len = treeList.length, i = 0;
-        for (int[] readyAlign : treeList) {
-            String outToScreen = "  " + (i + 1) + " / " + len;
-            if (!silent)
-                System.out.print(outToScreen);
-            String[] strsA = getStrsList(strs, strsList, readyAlign[0]);
-            String[] strsB = getStrsList(strs, strsList, readyAlign[1]);
-            strsList.put(readyAlign[2], profileAlign(strsA, strsB, alphabet));
-            labelsList.put(readyAlign[2], combineLabels(labelsList, readyAlign[0], readyAlign[1]));
-            labelsList.remove(readyAlign[0]);
-            labelsList.remove(readyAlign[1]);
-
-            i++;
-            if (!silent)
-                System.out.print(string.repeat("\b", outToScreen.length()));
-        }
-        this.orders = labelsList.get(treeList[treeList.length - 1][2]);
-        this.straligned = strsList.get(treeList[treeList.length - 1][2]);
-        if (!silent) 
-            System.out.println("[" + sdf.format(new Date()) + "] Done.");
     }
 }

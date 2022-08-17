@@ -68,12 +68,14 @@ public class FastCluster {
     private void genClusters() {
         int remainder = this.strs.length;
         clusters = new HashMap<>();
+        // 先构建长度类
         HashMap<Integer, int[]> LensClusters = new HashMap<>();
         while (remainder > 0) {
             int idxc = pickLongest();
             LensClusters.put(idxc, LensToFind(idxc));
             remainder -= (LensClusters.get(idxc).length);
         }
+        // 对每个长度类再进行聚类
         for (int key : LensClusters.keySet()) {
             int[] idxs = LensClusters.get(key);
             String[] strings = new String[idxs.length];
@@ -83,13 +85,15 @@ public class FastCluster {
             CenCluster ccluster = new CenCluster(strings, sim, false, silent);
             HashMap<Integer, int[]> temp = ccluster.getClusters();
             for (int k : temp.keySet()) {
-                int[] ints = temp.get(k);
-                for (int i = 0; i < ints.length; i++)
-                    ints[i] = idxs[ints[i]];
-                clusters.put(idxs[k], ints);
+                int[] clus = temp.get(k);
+                for (int i = 0; i < clus.length; i++) {
+                    clus[i] = idxs[clus[i]];
+                }
+                clusters.put(idxs[k], clus);
             }
         }
-        if (!silent)
+        if (!silent) {
             System.out.println("clusters: " + clusters.size() + "                    ");
+        }
     }
 }

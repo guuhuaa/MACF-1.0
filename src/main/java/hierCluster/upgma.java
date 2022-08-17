@@ -19,12 +19,12 @@ public class upgma {
         this.state = new boolean[this.n];
         for (int i = 0; i < n; i++) {
             this.nums[i] = 1;
-            node temp = new leafnode("" + i, i);
-            this.nodes[i] = temp;
+            this.nodes[i] = new leafnode("" + i, i);
             state[i] = true;
         }
         this.global_n = this.n;
         this.TreeList = new ArrayList<>();
+        this.genTree();
     }
 
     // for clusterTree
@@ -42,6 +42,7 @@ public class upgma {
         }
         this.global_n = globaln;
         this.TreeList = new ArrayList<>();
+        this.genTree();
     }
 
     /**
@@ -57,7 +58,7 @@ public class upgma {
             for (int j = i + 1; j < dmatrix.length; j++) {
                 if (!state[j])
                     continue;
-                if (this.dmatrix[i][j] > minimum) {
+                if (this.dmatrix[i][j] < minimum) {
                     idxi = i;
                     idxj = j;
                     minimum = dmatrix[idxi][idxj];
@@ -71,14 +72,13 @@ public class upgma {
      * combine the two nodes
      */
     private void combineNodes(int idxi, int idxj) {
-        double minimum = 1 - this.dmatrix[idxi][idxj];
+        double minimum = this.dmatrix[idxi][idxj] / 2;
         node newnode = new midnode(this.nodes[idxi], this.nodes[idxj], this.global_n++);
-        this.nodes[idxi].setLen(minimum / 2 - this.nodes[idxi].getDistance());
-        this.nodes[idxj].setLen(minimum / 2 - this.nodes[idxj].getDistance());
-        int[] treelist = { this.nodes[idxi].getNum(), this.nodes[idxj].getNum(), this.global_n - 1 };
-        this.TreeList.add(treelist.clone());
+        this.nodes[idxi].setLen(minimum - this.nodes[idxi].getDistance());
+        this.nodes[idxj].setLen(minimum - this.nodes[idxj].getDistance());
+        this.TreeList.add(new int[] {nodes[idxi].getNum(), nodes[idxj].getNum(), global_n - 1});
         this.nodes[idxi] = newnode;
-        this.nodes[idxj] = new leafnode("pass", -1);
+        this.nodes[idxj] = null;
     }
 
     /**
@@ -100,9 +100,9 @@ public class upgma {
                     / (nums[idxi] + nums[idxj]);
         }
         for (int i = 0; i < idxj; i++)
-            dmatrix[i][idxj] = Double.NEGATIVE_INFINITY;
+            dmatrix[i][idxj] = Double.POSITIVE_INFINITY;
         for (int j = idxj + 1; j < this.n; j++)
-            dmatrix[idxj][j] = Double.NEGATIVE_INFINITY;
+            dmatrix[idxj][j] = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -116,7 +116,7 @@ public class upgma {
         state[idxj] = false;
     }
 
-    public void genTree() {
+    private void genTree() {
         if (this.n < 2) {
             throw new IllegalArgumentException("The number of strings is smaller than 2!");
         }
@@ -141,11 +141,12 @@ public class upgma {
                 }
             }
         }
-        new midnode(this.nodes[idxi], this.nodes[idxj], this.global_n);
-        double len = (1 - this.dmatrix[idxi][idxj]) / 2;
+        node tmp = new midnode(this.nodes[idxi], this.nodes[idxj], this.global_n);
+        double len = this.dmatrix[idxi][idxj] / 2;
         this.nodes[idxi].setLen(len - this.nodes[idxi].getDistance());
         this.nodes[idxj].setLen(len - this.nodes[idxj].getDistance());
         int[] treelist = { this.nodes[idxi].getNum(), this.nodes[idxj].getNum(), this.global_n };
         this.TreeList.add(treelist.clone());
+        System.out.println(tmp);
     }
 }

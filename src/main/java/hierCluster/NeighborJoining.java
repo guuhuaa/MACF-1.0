@@ -24,6 +24,7 @@ public class NeighborJoining {
         this.silent = silent;
         this.global_n = this.n;
         this.TreeList = new ArrayList<>();
+        this.genTree();
     }
 
     public NeighborJoining(double[][] matrix, boolean silent) {
@@ -37,6 +38,7 @@ public class NeighborJoining {
         this.silent = silent;
         this.global_n = this.n;
         this.TreeList = new ArrayList<>();
+        this.genTree();
     }
 
     // gen the Q-matrix
@@ -65,7 +67,7 @@ public class NeighborJoining {
         double minimum = this.qmatrix[idxi][idxj];
         for (int i = 0; i < this.n; i++) {
             for (int j = i + 1; j < this.n; j++) {
-                if (this.qmatrix[i][j] > minimum) {
+                if (this.qmatrix[i][j] < minimum) {
                     idxi = i;
                     idxj = j;
                     minimum = qmatrix[idxi][idxj];
@@ -136,7 +138,7 @@ public class NeighborJoining {
     /**
      * gen unrooted tree
      */
-    public void genTree() {
+    private void genTree() {
         if (this.n < 2) {
             throw new IllegalArgumentException("The number of strings is smaller than 2!");
         }

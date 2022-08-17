@@ -21,7 +21,7 @@ public class kmer {
 
     /**
      * the number of alphabet is smaller than 5
-     * 
+     *
      * @return alphabet
      */
     public static char[] Counter(String[] strs) {
@@ -67,7 +67,7 @@ public class kmer {
 
     /**
      * to get the idx matrix of k mer
-     * 
+     *
      * @return kmer[][]
      */
     public int[][] Counterk() {
@@ -94,7 +94,24 @@ public class kmer {
     }
 
     /**
-     * compute the distance between the strs
+     *  得到中心序列与其他序列之间的距离
+     *       @param center
+     *       @return distance
+     */
+    public double[] getDismatrix1D(int center) {
+        int[][] kmerAll = Counterk();
+        double[] dists = new double[num-1];
+        for (int i = 0; i < center; i++) {
+            dists[i] = getDistance(kmerAll[center], kmerAll[i]);
+        }
+        for (int i = center + 1; i < num; i++) {
+            dists[i-1] = getDistance(kmerAll[center], kmerAll[i]);
+        }
+        return dists;
+    }
+
+    /**
+     * compute the dis-similarity between the strs
      * 
      * @return distance[][]
      */
@@ -103,7 +120,8 @@ public class kmer {
         double[][] dismatrix = new double[num][num];
         for (int i = 0; i < num; i++) {
             for (int j = i + 1; j < num; j++) {
-                dismatrix[i][j] = dismatrix[j][i] = getDistance(kmerAll[i], kmerAll[j]);
+                // 不相似度
+                dismatrix[i][j] = dismatrix[j][i] = 1 - getDistance(kmerAll[i], kmerAll[j]);
             }
         }
         return dismatrix;

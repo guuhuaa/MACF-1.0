@@ -17,34 +17,47 @@ public class Main {
     private static String outfile;
 
     public static void main(String[] args) throws IOException {
+        // 1. 解析输入参数
         parse(args);
+        // 2. 打印输入参数
         print_args();
+
+        // 打印时间参数
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.println("Reading data");
+        // 3. 读取数据
         String[][] res = Fasta.readFasta(infile);
         System.out.println("[" + sdf.format(new Date()) + "] Done.");
         String[] labels = res[0];
+        // 4. 打印序列的长度、数目信息
         String[] strs = Fasta.countInfo(res[1]);
+        // 5. 匹配比对模式
         switch (mode) {
-        case "tree":
-            treeAlign talign = new treeAlign(strs, "cluster", false);
-            String[] strsTal = talign.getStrsAlign();
-            Fasta.writeFasta(strsTal, labels, outfile, true);
-            break;
-        case "center":
-            centerAlign calign = new centerAlign(strs, "fmindex");
-            String[] strsCal = calign.getStrsAlign();
-            Fasta.writeFasta(strsCal, labels, outfile, true);
-            break;
-        case "mix":
-            ClusterAlign clalign = new ClusterAlign(strs, "t", "t2");
-            String[] strsClal = clalign.getStrsAlign();
-            Fasta.writeFasta(strsClal, labels, outfile, true);
-            break;
-        default:
-            args_help();
-            throw new IllegalArgumentException("unkown mode: " + mode);
+            // 树比对
+            case "tree":
+                // cluster模式：StarTree模式构建指导树
+                treeAlign talign = new treeAlign(strs, "cluster", false);
+                // 得到比对结果
+                String[] strsTal = talign.getStrsAlign();
+                // 将比对结果写入到文件中
+                Fasta.writeFasta(strsTal, labels, outfile, true);
+                break;
+            // 星比对
+            case "center":
+                centerAlign calign = new centerAlign(strs, "fmindex");
+                String[] strsCal = calign.getStrsAlign();
+                Fasta.writeFasta(strsCal, labels, outfile, true);
+                break;
+            // 混合策略比对
+            case "mix":
+                ClusterAlign clalign = new ClusterAlign(strs, "t", "t2");
+                String[] strsClal = clalign.getStrsAlign();
+                Fasta.writeFasta(strsClal, labels, outfile, true);
+                break;
+            default:
+                args_help();
+                throw new IllegalArgumentException("unkown mode: " + mode);
         }
     }
 
@@ -84,7 +97,7 @@ public class Main {
         } else if (mode == null) {
             mode = "mix";
         }
-        try (Writer write = new FileWriter(outfile)) {}
+        try (Writer ignored = new FileWriter(outfile)) {}
     }
 
     private static void args_help() {

@@ -3,7 +3,6 @@ package measure;
 public class strsdist {
     private final String[] strs;
     private final String mode;
-    public int idxc = -1;
     private final double[][] dismatrix;
 
     /**
@@ -23,10 +22,7 @@ public class strsdist {
      * @return dist[][]
      */
     public double[][] getDismatrix2D() {
-        if (idxc == -1)
-            return dismatrix;
-        else
-            return null;
+        return dismatrix;
     }
 
     /**

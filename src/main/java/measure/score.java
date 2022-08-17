@@ -68,7 +68,7 @@ public class score {
 
 
     /**
-     * try to get a appropriate k
+     * try to get an appropriate k
      * 
      * @param strs
      * @param sampled
@@ -76,20 +76,17 @@ public class score {
      */
     public static int getK(String[] strs, boolean sampled) {
         if (!sampled) {
-            sampleStrings spStrs = new sampleStrings();
-            strs = spStrs.getSampleStrs(strs);
+            strs = sampleStrings.getSampleStrs(strs);
         }
-        centerAlign cAlign = new centerAlign(strs, true);
+        centerAlign cAlign = new centerAlign(strs, false);
         strs = cAlign.getStrsAlign();
-        int nums = strs.length;
-        int gap2 = 0;
+        int nums = strs.length, gap = 0;
         for (int i = 0; i < nums; i++) {
-            for (int j = i; j < nums; j++) {
-                gap2 += countGap(strs[i], strs[j]);
+            for (int j = i + 1; j < nums; j++) {
+                gap += countGap(strs[i], strs[j]);
             }
         }
-        gap2 /= (nums * nums / 2);
-        return Math.max(gap2, 1);
+        return Math.max(gap / (nums * nums / 2), 1);
     }
 
     private static int countGap(String A, String B) {

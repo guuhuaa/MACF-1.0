@@ -1,10 +1,11 @@
 package hierCluster;
 
 public abstract class node {
-    private double branchlength;
+    private int minimumIdx;
+    private double branchlength, minimumLength;
 
     public abstract int getNum();
-
+    public abstract int getIdx();
     public abstract double getDistance();
 
     public double getLen() {
@@ -13,5 +14,21 @@ public abstract class node {
 
     public void setLen(double length) {
         branchlength = length;
+    }
+
+    public double getMinimumLength() {
+        return minimumLength;
+    }
+
+    public void setMinimumLength(double minimumLength) {
+        this.minimumLength = minimumLength;
+    }
+
+    public int getMinimumIdx() {
+        return minimumIdx;
+    }
+
+    public void setMinimumIdx(int minimumIdx) {
+        this.minimumIdx = minimumIdx;
     }
 }

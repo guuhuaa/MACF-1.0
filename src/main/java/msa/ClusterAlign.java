@@ -10,6 +10,7 @@ import java.util.HashMap;
 import hierCluster.guidetree;
 import io.string;
 import psa.PSA;
+import psa.profileAlign;
 import strsCluster.*;
 import measure.*;
 
@@ -71,7 +72,7 @@ public class ClusterAlign {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.print("clustering ... ");
-        FastCluster fastCluster = new FastCluster(strs, 0.9, false);
+        FastCluster fastCluster = new FastCluster(strs, 0.85, false);
         cluIdx = fastCluster.getClusters();
         HashMap<Integer, String[]> multiStrs = new HashMap<>();
         for (int c : cluIdx.keySet()) {
@@ -144,7 +145,7 @@ public class ClusterAlign {
                 centerAlign cAlign = new centerAlign(multiStrs.get(c), true);
                 multiStrs.put(c, cAlign.getStrsAlign());
             } else if (mode1.equals("t")) {
-                treeAlign tAlign = new treeAlign(multiStrs.get(c), "upgma", true);
+                treeAlign tAlign = new treeAlign(multiStrs.get(c), "upgma", true, kk);
                 multiStrs.put(c, tAlign.getStrsAlign());
             } else {
                 throw new IllegalArgumentException("Unknown mode " + mode1);
@@ -160,14 +161,14 @@ public class ClusterAlign {
             mode2 = "t1";
         }
         switch (mode2) {
-        case "t1":
-            TreeAlign1(multiStrsed);
-            break;
-        case "t2":
-            TreeAlign2(multiStrsed);
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown mode " + mode2);
+            case "t1":
+                TreeAlign1(multiStrsed);
+                break;
+            case "t2":
+                TreeAlign2(multiStrsed);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown mode " + mode2);
         }
     }
 
@@ -193,7 +194,7 @@ public class ClusterAlign {
                 centerStrs[i] = PickRealOne(multiStrs.get(key));
                 keys[i++] = key;
             }
-            treeAlign tAlign = new treeAlign(centerStrs, "cluster", true);
+            treeAlign tAlign = new treeAlign(centerStrs, "cluster", true, kk);
             centerStrs = tAlign.getStrsAlign();
             for (i = 0; i < centerStrs.length; i++) {
                 insertGapStrings(centerStrs[i], multiStrs.get(keys[i]));
@@ -247,7 +248,7 @@ public class ClusterAlign {
                     strsB = NewStrsed.remove(readyAlign[1]);
                     IdxB = newcluIdx.remove(readyAlign[1]);
                 }
-                NewStrsed.put(readyAlign[2], profileAlign(strsA, strsB, alphabet));
+                NewStrsed.put(readyAlign[2], profileAlign.Align(strsA, strsB, alphabet, kk));
                 IdxC = new int[IdxA.length + IdxB.length];
                 System.arraycopy(IdxA, 0, IdxC, 0, IdxA.length);
                 System.arraycopy(IdxB, 0, IdxC, IdxA.length, IdxB.length);
@@ -259,16 +260,6 @@ public class ClusterAlign {
             order = newcluIdx.get(treeList[treeList.length - 1][2]);
         }
         System.out.println("[" + sdf.format(new Date()) + "] Done.");
-    }
-
-    private String[] profileAlign(String[] A, String[] B, char[] alphabet) {
-        PSA psa;
-        if (A.length == 1 && B.length == 1) {
-            psa = new PSA(A[0], B[0]);
-        } else {
-            psa = new PSA(A, B, alphabet, kk);
-        }
-        return psa.getAlign();
     }
 
     private int[][] GenList(HashMap<Integer, String[]> multiStrs, HashMap<Integer, Integer> idxMap) {

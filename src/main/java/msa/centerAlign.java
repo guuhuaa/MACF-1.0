@@ -1,8 +1,8 @@
 package msa;
 
 import io.string;
-import psa.dsa;
 import psa.FMAlign;
+import psa.Kband;
 import psa.STAlign;
 
 public class centerAlign {
@@ -53,51 +53,51 @@ public class centerAlign {
     private String[][] alignToAll(String[] strs, int maxcol) {
         String[][] resultsAlign = new String[num - 1][2];
         switch (this.mode) {
-        case "suffix":
-            STAlign stAlign = new STAlign(strs[maxcol]);
-            for (int i = 0; i < num - 1; i++) {
-                String outToScreen = "    " + (i + 1) + " / " + (num - 1);
+            case "suffix":
+                STAlign stAlign = new STAlign(strs[maxcol]);
+                for (int i = 0; i < num - 1; i++) {
+                    String outToScreen = "    " + (i + 1) + " / " + (num - 1);
+                    if (!silent)
+                        System.out.print(outToScreen);
+                    int j = i >= maxcol ? i + 1 : i;
+                    stAlign.AlignStrB(strs[j]);
+                    resultsAlign[i] = stAlign.getStrAlign();
+                    if (!silent)
+                        System.out.print(string.repeat("\b", outToScreen.length()));
+                }
                 if (!silent)
-                    System.out.print(outToScreen);
-                int j = i >= maxcol ? i + 1 : i;
-                stAlign.AlignStrB(strs[j]);
-                resultsAlign[i] = stAlign.getStrAlign();
-                if (!silent)
-                    System.out.print(string.repeat("\b", outToScreen.length()));
-            }
-            if (!silent)
+                    System.out.println("    " + (num - 1) + " / " + (num - 1));
+                break;
+            case "kband":
+                for (int i = 0; i < num - 1; i++) {
+                    String outToScreen = "    " + (i + 1) + " / " + (num - 1);
+                    if (!silent)
+                        System.out.print(outToScreen);
+                    int j = i >= maxcol ? i + 1 : i;
+                    Kband kbAlign = new Kband(strs[maxcol], strs[j]);
+                    resultsAlign[i] = kbAlign.getStrAlign();
+                    if (!silent)
+                        System.out.print(string.repeat("\b", outToScreen.length()));
+                }
                 System.out.println("    " + (num - 1) + " / " + (num - 1));
-            break;
-        case "kband":
-            for (int i = 0; i < num - 1; i++) {
-                String outToScreen = "    " + (i + 1) + " / " + (num - 1);
+                break;
+            case "fmindex":
+                FMAlign fmAlign = new FMAlign(strs[maxcol]);
+                for (int i = 0; i < num - 1; i++) {
+                    String outToScreen = "    " + (i + 1) + " / " + (num - 1);
+                    if (!silent)
+                        System.out.print(outToScreen);
+                    int j = i >= maxcol ? i + 1 : i;
+                    fmAlign.AlignStrB(strs[j]);
+                    resultsAlign[i] = fmAlign.getStrAlign();
+                    if (!silent)
+                        System.out.print(string.repeat("\b", outToScreen.length()));
+                }
                 if (!silent)
-                    System.out.print(outToScreen);
-                int j = i >= maxcol ? i + 1 : i;
-                dsa dalign = new dsa(strs[maxcol], strs[j], "kband");
-                resultsAlign[i] = dalign.getStrAlign();
-                if (!silent)
-                    System.out.print(string.repeat("\b", outToScreen.length()));
-            }
-            System.out.println("    " + (num - 1) + " / " + (num - 1));
-            break;
-        case "fmindex":
-            FMAlign fmAlign = new FMAlign(strs[maxcol]);
-            for (int i = 0; i < num - 1; i++) {
-                String outToScreen = "    " + (i + 1) + " / " + (num - 1);
-                if (!silent)
-                    System.out.print(outToScreen);
-                int j = i >= maxcol ? i + 1 : i;
-                fmAlign.AlignStrB(strs[j]);
-                resultsAlign[i] = fmAlign.getStrAlign();
-                if (!silent)
-                    System.out.print(string.repeat("\b", outToScreen.length()));
-            }
-            if (!silent)
-                System.out.println("    " + (num - 1) + " / " + (num - 1));
-            break;
-        default:
-            throw new IllegalArgumentException("unkown mode: " + mode);
+                    System.out.println("    " + (num - 1) + " / " + (num - 1));
+                break;
+            default:
+                throw new IllegalArgumentException("unkown mode: " + mode);
         }
         return resultsAlign;
     }

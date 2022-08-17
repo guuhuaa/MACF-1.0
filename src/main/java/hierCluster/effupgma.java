@@ -35,7 +35,7 @@ public class effupgma {
     private void genTree() {
         while (remainder >= 2) {
             Deque<node> queue = new LinkedList<>();
-            // 栈为空就往栈里面添加节点
+            // 先加入两个元素
             for (int i = 0; i < len; i++) {
                 if (nodes[i] != null) {
                     // 添加第一个元素

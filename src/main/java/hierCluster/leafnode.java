@@ -2,17 +2,14 @@ package hierCluster;
 
 public class leafnode extends node {
     private final String name;
-    public int number;
+    private int idx;
 
-    public leafnode(String name, int num) {
+    public leafnode(String name, int idx) {
         this.name = name;
-        this.number = num;
+        this.idx = idx;
     }
 
-    public int getNum() {
-        return number;
-    }
-
+    @Override
     public String toString() {
         return name;
     }
@@ -20,5 +17,15 @@ public class leafnode extends node {
     @Override
     public double getDistance() {
         return 0.0;
+    }
+
+    @Override
+    public int getIdx() {
+        return idx;
+    }
+
+    @Override
+    public int getNum() {
+        return idx;
     }
 }

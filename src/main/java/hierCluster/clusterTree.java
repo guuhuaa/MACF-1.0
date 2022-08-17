@@ -30,11 +30,12 @@ public class clusterTree {
     }
 
     private void genTree() {
+        // 第一步先完成初步聚类
         HashMap<Integer, int[]> cluIdx = Cluster();
         int[][] cenNames = new int[cluIdx.size()][];
         int globaln = strs.length;
         int icN = 0;
-        // 1. bulid son tree
+        // 第二步完成构建子树
         for (int k : cluIdx.keySet()) {
             if (cluIdx.get(k).length < 1) {
                 cenNames[icN++] = new int[] { k, k };
@@ -51,7 +52,6 @@ public class clusterTree {
             strsdist sdist = new strsdist(cstrs, "kmer");
             // 2. genTree
             upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
-            htree.genTree();
             TreeList.addAll(htree.TreeList);
             globaln += cluIdx.get(k).length;
             cenNames[icN++] = new int[] { globaln - 1, k };
@@ -68,7 +68,6 @@ public class clusterTree {
         }
         strsdist sdist = new strsdist(fstrs, "kmer");
         upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
-        htree.genTree();
         TreeList.addAll(htree.TreeList);
     }
 
@@ -78,6 +77,7 @@ public class clusterTree {
             // c not in int[]
             return fastCluster.getClusters();
         } else {
+            // 比对过的来建树
             CenCluster cenCluster = new CenCluster(strs, lens, 0.9, true);
             return cenCluster.getClusters();
         }
