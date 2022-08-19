@@ -3,6 +3,7 @@ package strsCluster;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.string;
 import measure.kmer;
@@ -12,17 +13,16 @@ public class CenCluster {
     private final boolean silent;
     private String[] strs;
     private int[] lens;
-    private HashMap<Integer, int[]> clusters;
+    private Map<Integer, int[]> clusters;
 
     /**
      * gen clusters
      *
      * @param strs
      * @param sim
-     * @param iter
      * @param silent
      */
-    public CenCluster(String[] strs, double sim, boolean iter, boolean silent) {
+    public CenCluster(String[] strs, double sim, boolean silent) {
         this.sim = sim;
         this.strs = strs;
         this.lens = getLens(strs);
@@ -46,7 +46,7 @@ public class CenCluster {
      *
      * @return clusters
      */
-    public HashMap<Integer, int[]> getClusters() {
+    public Map<Integer, int[]> getClusters() {
         return clusters;
     }
 
@@ -65,8 +65,9 @@ public class CenCluster {
         clusters = new HashMap<>();
         // a map of change idx --> origin idx
         int[] idxMap = new int[strs.length];
-        for (int i = 0; i < strs.length; i++)
+        for (int i = 0; i < strs.length; i++) {
             idxMap[i] = i;
+        }
 
         while (strs.length > 1) {
             String output = "  clu : " + clusters.size() + "  remain : " + strs.length + "      ";

@@ -36,8 +36,7 @@ public class upgma {
         this.state = new boolean[this.n];
         for (int i = 0; i < n; i++) {
             this.nums[i] = 1;
-            node temp = new leafnode("" + idxs[i], idxs[i]);
-            this.nodes[i] = temp;
+            this.nodes[i] = new leafnode("" + idxs[i], idxs[i]);
             state[i] = true;
         }
         this.global_n = globaln;
@@ -141,12 +140,11 @@ public class upgma {
                 }
             }
         }
-        node tmp = new midnode(this.nodes[idxi], this.nodes[idxj], this.global_n);
+        new midnode(this.nodes[idxi], this.nodes[idxj], this.global_n);
         double len = this.dmatrix[idxi][idxj] / 2;
         this.nodes[idxi].setLen(len - this.nodes[idxi].getDistance());
         this.nodes[idxj].setLen(len - this.nodes[idxj].getDistance());
         int[] treelist = { this.nodes[idxi].getNum(), this.nodes[idxj].getNum(), this.global_n };
         this.TreeList.add(treelist.clone());
-        System.out.println(tmp);
     }
 }

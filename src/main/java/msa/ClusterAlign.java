@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import hierCluster.guidetree;
 import io.string;
@@ -20,7 +21,7 @@ public class ClusterAlign {
     private final char[] alphabet;
     private String[] labels;
     private String[] strsAligned;
-    private HashMap<Integer, int[]> cluIdx;
+    private Map<Integer, int[]> cluIdx;
     // mode1 "c" or "t" mode2 "c" or "t"
     private String mode1 = "t";
     private String mode2 = "t1";
@@ -68,7 +69,7 @@ public class ClusterAlign {
     /**
      * gen the cluster by own
      */
-    private HashMap<Integer, String[]> getCluster(String[] strs) {
+    private Map<Integer, String[]> getCluster(String[] strs) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.print("clustering ... ");
@@ -94,11 +95,11 @@ public class ClusterAlign {
     /**
      * get cluster strings [][] by cdhitdfile
      */
-    private HashMap<Integer, String[]> getCluCdhit(String[] strs, String cdhitfile) throws IOException {
+    private Map<Integer, String[]> getCluCdhit(String[] strs, String cdhitfile) throws IOException {
         exCDhit cdhit = new exCDhit();
         String[][] names = cdhit.readClstr(cdhitfile);
-        HashMap<String, Integer> idxmap = new HashMap<>();
-        HashMap<Integer, String[]> multiStrs = new HashMap<>();
+        Map<String, Integer> idxmap = new HashMap<>();
+        Map<Integer, String[]> multiStrs = new HashMap<>();
         cluIdx = new HashMap<>();
         Pattern p = Pattern.compile("(>\\s*\\w+).*");
         for (int i = 0; i < labels.length; i++) {
@@ -121,7 +122,7 @@ public class ClusterAlign {
         return multiStrs;
     }
 
-    private HashMap<Integer, String[]> cluAlign(HashMap<Integer, String[]> multiStrs) {
+    private Map<Integer, String[]> cluAlign(Map<Integer, String[]> multiStrs) {
         if (multiStrs.size() <= 1) {
             int length = 0;
             for (int c : multiStrs.keySet())
@@ -156,7 +157,7 @@ public class ClusterAlign {
         return multiStrs;
     }
 
-    private void multiAlign(HashMap<Integer, String[]> multiStrsed) {
+    private void multiAlign(Map<Integer, String[]> multiStrsed) {
         if (numsStrs > 10000) {
             mode2 = "t1";
         }
@@ -175,7 +176,7 @@ public class ClusterAlign {
     /**
      * 类中取1，再来比对
      */
-    public void TreeAlign1(HashMap<Integer, String[]> multiStrs) {
+    public void TreeAlign1(Map<Integer, String[]> multiStrs) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.println("combining all cluster");
@@ -214,7 +215,7 @@ public class ClusterAlign {
     /**
      * 生成一颗中心序列的树，再来树比对
      */
-    private void TreeAlign2(HashMap<Integer, String[]> multiStrs) {
+    private void TreeAlign2(Map<Integer, String[]> multiStrs) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.println("combining all clusters");
@@ -224,9 +225,9 @@ public class ClusterAlign {
                 order = cluIdx.get(i);
             }
         } else {
-            HashMap<Integer, int[]> newcluIdx = new HashMap<>();
-            HashMap<Integer, Integer> idxmap = new HashMap<>();
-            HashMap<Integer, String[]> NewStrsed = new HashMap<>();
+            Map<Integer, int[]> newcluIdx = new HashMap<>();
+            Map<Integer, Integer> idxmap = new HashMap<>();
+            Map<Integer, String[]> NewStrsed = new HashMap<>();
             int[][] treeList = GenList(multiStrs, idxmap);
             int i = 0;
             for (int[] readyAlign : treeList) {
@@ -262,7 +263,7 @@ public class ClusterAlign {
         System.out.println("[" + sdf.format(new Date()) + "] Done.");
     }
 
-    private int[][] GenList(HashMap<Integer, String[]> multiStrs, HashMap<Integer, Integer> idxMap) {
+    private int[][] GenList(Map<Integer, String[]> multiStrs, Map<Integer, Integer> idxMap) {
         String[] strs = new String[multiStrs.size()];
         int tempIdx = 0;
         for (int key : multiStrs.keySet()) {

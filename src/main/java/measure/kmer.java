@@ -70,13 +70,14 @@ public class kmer {
      *
      * @return kmer[][]
      */
-    public int[][] Counterk() {
+    public static int[][] Counterk(String[] strs, int k) {
+        int num = strs.length;
         HashMap<String, Integer> wordsIdx = new HashMap<>();
         int temp = 0;
         for (String str : strs) {
             // for (int i = 0; i <= str.length() - this.k; i += this.k) {
-            for (int i = 0; i <= str.length() - this.k; i++) {
-                String kstr = str.substring(i, i + this.k);
+            for (int i = 0; i <= str.length() - k; i++) {
+                String kstr = str.substring(i, i + k);
                 if (!wordsIdx.containsKey(kstr)) {
                     wordsIdx.put(kstr, temp++);
                 }
@@ -86,8 +87,8 @@ public class kmer {
         for (int i = 0; i < num; i++) {
             String str = strs[i];
             // for (int j = 0; j <= str.length() - this.k; j += this.k) {
-            for (int j = 0; j <= str.length() - this.k; j++) {
-                kmerAll[i][wordsIdx.get(str.substring(j, j + this.k))]++;
+            for (int j = 0; j <= str.length() - k; j++) {
+                kmerAll[i][wordsIdx.get(str.substring(j, j + k))]++;
             }
         }
         return kmerAll;
@@ -95,11 +96,11 @@ public class kmer {
 
     /**
      *  得到中心序列与其他序列之间的距离
-     *       @param center
-     *       @return distance
+     *  @param center
+     *  @return distance
      */
     public double[] getDismatrix1D(int center) {
-        int[][] kmerAll = Counterk();
+        int[][] kmerAll = Counterk(strs, k);
         double[] dists = new double[num-1];
         for (int i = 0; i < center; i++) {
             dists[i] = getDistance(kmerAll[center], kmerAll[i]);
@@ -116,7 +117,7 @@ public class kmer {
      * @return distance[][]
      */
     public double[][] getDismatrix() {
-        int[][] kmerAll = Counterk();
+        int[][] kmerAll = Counterk(strs, k);
         double[][] dismatrix = new double[num][num];
         for (int i = 0; i < num; i++) {
             for (int j = i + 1; j < num; j++) {
@@ -127,7 +128,7 @@ public class kmer {
         return dismatrix;
     }
 
-    private double getDistance(int[] kmerA, int[] kmerB) {
+    public static double getDistance(int[] kmerA, int[] kmerB) {
         double sim;
         long respoint = 0;
         long lenA = 0, lenB = 0;

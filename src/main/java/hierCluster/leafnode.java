@@ -2,11 +2,17 @@ package hierCluster;
 
 public class leafnode extends node {
     private final String name;
-    private int idx;
+    private int idx, num;
 
     public leafnode(String name, int idx) {
         this.name = name;
         this.idx = idx;
+    }
+
+    public leafnode(String name, int idx, int num) {
+        this.name = name;
+        this.idx = idx;
+        this.num = num;
     }
 
     @Override
@@ -26,6 +32,6 @@ public class leafnode extends node {
 
     @Override
     public int getNum() {
-        return idx;
+        return num;
     }
 }

@@ -1,7 +1,7 @@
 package hierCluster;
 
 import java.util.List;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 
 import strsCluster.CenCluster;
@@ -31,7 +31,7 @@ public class clusterTree {
 
     private void genTree() {
         // 第一步先完成初步聚类
-        HashMap<Integer, int[]> cluIdx = Cluster();
+        Map<Integer, int[]> cluIdx = Cluster();
         int[][] cenNames = new int[cluIdx.size()][];
         int globaln = strs.length;
         int icN = 0;
@@ -51,7 +51,8 @@ public class clusterTree {
             // 1. compute distance
             strsdist sdist = new strsdist(cstrs, "kmer");
             // 2. genTree
-            upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
+            // upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
+            effupgma htree = new effupgma(sdist.getDismatrix2D(), idxs, globaln);
             TreeList.addAll(htree.TreeList);
             globaln += cluIdx.get(k).length;
             cenNames[icN++] = new int[] { globaln - 1, k };
@@ -67,13 +68,14 @@ public class clusterTree {
             idxs[i] = cenNames[i][0];
         }
         strsdist sdist = new strsdist(fstrs, "kmer");
-        upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
+        // upgma htree = new upgma(sdist.getDismatrix2D(), idxs, globaln);
+        effupgma htree = new effupgma(sdist.getDismatrix2D(), idxs, globaln);
         TreeList.addAll(htree.TreeList);
     }
 
-    private HashMap<Integer, int[]> Cluster() {
+    private Map<Integer, int[]> Cluster() {
         if (!aligned) {
-            FastCluster fastCluster = new FastCluster(strs, 0.9, true);
+            FastCluster fastCluster = new FastCluster(strs, 0.85, true);
             // c not in int[]
             return fastCluster.getClusters();
         } else {

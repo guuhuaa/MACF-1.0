@@ -78,7 +78,7 @@ public class score {
         if (!sampled) {
             strs = sampleStrings.getSampleStrs(strs);
         }
-        centerAlign cAlign = new centerAlign(strs, false);
+        centerAlign cAlign = new centerAlign(strs, true);
         strs = cAlign.getStrsAlign();
         int nums = strs.length, gap = 0;
         for (int i = 0; i < nums; i++) {

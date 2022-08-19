@@ -3,13 +3,14 @@ package strsCluster;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FastCluster {
     private final double sim;
     private final String[] strs;
     private final int[] lens;
     private final boolean silent;
-    private HashMap<Integer, int[]> clusters;
+    private Map<Integer, int[]> clusters;
 
     public FastCluster(String[] strs, double sim, boolean silent) {
         this.sim = sim;
@@ -24,7 +25,7 @@ public class FastCluster {
      * 
      * @return clusters
      */
-    public HashMap<Integer, int[]> getClusters() {
+    public Map<Integer, int[]> getClusters() {
         return clusters;
     }
 
@@ -48,7 +49,7 @@ public class FastCluster {
     }
 
     private int[] LensToFind(int idxc) {
-        int length = (int) (lens[idxc] * 0.90);
+        int length = (int) (lens[idxc] * 0.9);
         lens[idxc] = -1;
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < lens.length; i++) {
@@ -69,7 +70,7 @@ public class FastCluster {
         int remainder = this.strs.length;
         clusters = new HashMap<>();
         // 先构建长度类
-        HashMap<Integer, int[]> LensClusters = new HashMap<>();
+        Map<Integer, int[]> LensClusters = new HashMap<>();
         while (remainder > 0) {
             int idxc = pickLongest();
             LensClusters.put(idxc, LensToFind(idxc));
@@ -82,8 +83,9 @@ public class FastCluster {
             for (int i = 0; i < strings.length; i++) {
                 strings[i] = strs[idxs[i]];
             }
-            CenCluster ccluster = new CenCluster(strings, sim, false, silent);
-            HashMap<Integer, int[]> temp = ccluster.getClusters();
+            // CenCluster ccluster = new CenCluster(strings, sim, silent);
+            NewCenCluster ccluster = new NewCenCluster(strings, sim, silent);
+            Map<Integer, int[]> temp = ccluster.getClusters();
             for (int k : temp.keySet()) {
                 int[] clus = temp.get(k);
                 for (int i = 0; i < clus.length; i++) {

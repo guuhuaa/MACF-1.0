@@ -32,6 +32,23 @@ public class effupgma {
         this.genTree();
     }
 
+    public effupgma(double[][] matrix, int[] idxs, int global_n) {
+        this.dmatrix = matrix;
+        this.len = matrix.length;
+        this.remainder = this.len;
+        this.global_n = global_n;
+        this.nums = new int[this.len];
+        this.nodes = new node[this.len];
+        this.TreeList = new ArrayList<>();
+
+        for (int i = 0; i < len; i++) {
+            this.nums[i] = 1;
+            this.nodes[i] = new leafnode("" + idxs[i], i, idxs[i]);
+        }
+
+        this.genTree();
+    }
+
     private void genTree() {
         while (remainder >= 2) {
             Deque<node> queue = new LinkedList<>();
@@ -74,9 +91,6 @@ public class effupgma {
         // 更新nums值
         nums[i1] += nums[i2];
         nums[i2] = 0;
-        if (remainder == 2) {
-            System.out.println(nodes[i1]);
-        }
     }
 
     /**
