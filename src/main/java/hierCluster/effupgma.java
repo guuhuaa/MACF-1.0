@@ -7,10 +7,12 @@ import java.util.List;
 
 
 public class effupgma {
-    private double[][] dmatrix;
-    private node[] nodes;
-    private int[] nums;
-    private int len, remainder, global_n;
+    private final double[][] dmatrix;
+    private final node[] nodes;
+    private final int[] nums;
+    private final int len;
+    private int remainder;
+    private int global_n;
     private double headValue, secondValue;
     
     public List<int[]> TreeList;
@@ -59,6 +61,7 @@ public class effupgma {
                     queue.push(nodes[i]);
                     GetHeadValue(queue);
                     // 添加第二个元素
+                    assert queue.peek() != null;
                     queue.push(nodes[queue.peek().getMinimumIdx()]);
                     GetHeadValue(queue);
                     break;
@@ -67,6 +70,7 @@ public class effupgma {
             while (headValue != secondValue) {
                 // 只需要留下最后一个元素即可
                 queue.removeLast();
+                assert queue.peek() != null;
                 queue.push(nodes[queue.peek().getMinimumIdx()]);
                 GetHeadValue(queue);
             }
@@ -119,6 +123,7 @@ public class effupgma {
     private void GetHeadValue(Deque<node> queue) {
         secondValue = headValue;
         node cur = queue.peek();
+        assert cur != null;
         int idx = cur.getIdx(), target = -1;
         double minValue = 2.0d;
         for (int j = 0; j < len; j++) {

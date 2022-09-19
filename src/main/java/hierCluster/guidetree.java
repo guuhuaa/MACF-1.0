@@ -26,7 +26,8 @@ public class guidetree {
         strsdist sdist = new strsdist(strs, "kmer");
         double[][] simMatrix = sdist.getDismatrix2D();
         if (mode.equals("upgma")) {
-            upgma htree = new upgma(simMatrix);
+            // upgma htree = new upgma(simMatrix);
+            effupgma htree = new effupgma(simMatrix);
             return htree.TreeList.toArray(new int[0][]);
         } else if (mode.equals("nj")) {
             NeighborJoining nJtree = new NeighborJoining(simMatrix, silent);

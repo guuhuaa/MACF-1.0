@@ -2,10 +2,7 @@ package io;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * read or write the fasta file
@@ -41,7 +38,7 @@ public class Fasta {
     }
 
     public static String[] countInfo(String[] strs) {
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>() {
+        Map<Character, Integer> map = new HashMap<Character, Integer>() {
             {
                 put('a', 0);
                 put('g', 0);
@@ -51,7 +48,7 @@ public class Fasta {
                 put('-', 0);
             }
         };
-        HashMap<Character, Integer> Amchar = new HashMap<>();
+        Map<Character, Integer> Amchar = new HashMap<>();
         long length = 0, minl = Long.MAX_VALUE, maxl = 0;
         int n = 0, gap = 0;
         for (int i = 0; i < strs.length; i++) {

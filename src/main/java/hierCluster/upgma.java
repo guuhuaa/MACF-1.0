@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class upgma {
-    private double[][] dmatrix;
+    private final double[][] dmatrix;
     public List<int[]> TreeList;
-    private node[] nodes;
-    private int[] nums;
+    private final node[] nodes;
+    private final int[] nums;
     private int n, global_n;
-    private boolean[] state;
+    private final boolean[] state;
 
     public upgma(double[][] matrix) {
         this.dmatrix = matrix;

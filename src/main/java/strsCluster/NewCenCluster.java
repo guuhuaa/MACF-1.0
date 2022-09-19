@@ -11,7 +11,7 @@ import measure.kmer;
 public class NewCenCluster {
     private final double sim;
     private final boolean silent;
-    private String[] strs;
+    private final String[] strs;
     private Map<Integer, int[]> clusters;
 
     public NewCenCluster(String[] strs, double sim, boolean silent) {
