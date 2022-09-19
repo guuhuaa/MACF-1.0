@@ -14,6 +14,7 @@ public class treeAlign {
     private String[] straligned;
     private final String Treemode;
     private int[] orders;
+    private int[][] treelist;
     private final int num, kk;
     private final boolean silent, aligned;
 
@@ -38,7 +39,24 @@ public class treeAlign {
     }
 
 
-        /**
+    public treeAlign(String[] strs, int[][] treelist, boolean silent) {
+        // 序列数目
+        this.num = strs.length;
+        // 是否输出比对过程
+        this.silent = silent;
+        // 数据是否已经被对齐
+        this.aligned = false;
+        // 构建指导树的模式
+        this.Treemode = "";
+        this.treelist = treelist;
+        // 得到一个合适的k值初始值
+        this.kk = score.getK(strs, false);
+        // 对齐序列
+        Align(strs);
+        reOrder();
+    }
+
+    /**
      * Choose one Gen tree mode "nj" or "upgma" or "cluster" and choose silent or
      * output
      */
@@ -87,13 +105,13 @@ public class treeAlign {
     private void Align(String[] strs) {
         // 1.build tree
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (!silent) {
+        if (!silent && !this.Treemode.equals("")) {
             System.out.println("[" + sdf.format(new Date()) + "] building the " + Treemode + " tree");
         }
         int[][] treeList = genTreeList(strs);
         HashMap<Integer, String[]> strsList = new HashMap<>();
         HashMap<Integer, int[]> labelsList = new HashMap<>();
-        if (!silent) {
+        if (!silent && !this.Treemode.equals("")) {
             System.out.println("[" + sdf.format(new Date()) + "] Done.");
         }
         // 2.align
@@ -153,6 +171,9 @@ public class treeAlign {
     }
 
     private int[][] genTreeList(String[] strs) {
+        if (this.treelist != null) {
+            return this.treelist;
+        }
         // 未对齐的和对齐的两种生成树的方式
         if (!aligned) {
             guidetree gTree = new guidetree(strs, this.Treemode);

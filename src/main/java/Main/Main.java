@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.Fasta;
+import io.phyio;
 import msa.ClusterAlign;
 import msa.centerAlign;
 import msa.treeAlign;
@@ -15,8 +16,10 @@ public class Main {
     private static String mode;
     private static String infile;
     private static String outfile;
+    private static String newickfile;
+    private static String newickmode;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         // 1. 解析输入参数
         parse(args);
         // 2. 打印输入参数
@@ -55,6 +58,21 @@ public class Main {
                 String[] strsClal = clalign.getStrsAlign();
                 Fasta.writeFasta(strsClal, labels, outfile, true);
                 break;
+            case "withguidetree":
+                int[][] treelist;
+                if (newickmode.equalsIgnoreCase("mbed")) {
+                    treelist = phyio.readAndGenTreeList(newickfile, labels, labels.length);
+                } else if (newickmode.equalsIgnoreCase("parttree")) {
+                    treelist = phyio.readAndGenTreeList(newickfile, null, labels.length);
+                } else {
+                    throw new IllegalArgumentException("unkown mode: " + newickmode);
+                }
+                treeAlign NAlign = new treeAlign(strs, treelist, false);
+                // 得到比对结果
+                String[] strsaln = NAlign.getStrsAlign();
+                // 将比对结果写入到文件中
+                Fasta.writeFasta(strsaln, labels, outfile, true);
+                break;
             default:
                 args_help();
                 throw new IllegalArgumentException("unkown mode: " + mode);
@@ -65,14 +83,18 @@ public class Main {
         // 比对方式选择 -m
         // 输入文件位置 -i
         // 输出文件位置 -o
-        if (args.length == 0 || args.length > 6) {
+        // newick文件位置 -ni
+        // newick文件模式 -nm
+        if (args.length == 0 || args.length > 10) {
             args_help();
             System.exit(0);
         }
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-m") && args.length > i + 1) {
-                if (args[i + 1].equalsIgnoreCase("center") || args[i + 1].equalsIgnoreCase("tree")
-                        || args[i + 1].equalsIgnoreCase("mix")) {
+                if (   args[i + 1].equalsIgnoreCase("mix")
+                    || args[i + 1].equalsIgnoreCase("tree")
+                    || args[i + 1].equalsIgnoreCase("center") 
+                    || args[i + 1].equalsIgnoreCase("withGuideTree")) {
                     mode = args[++i].toLowerCase();
                 } else {
                     args_help();
@@ -82,6 +104,10 @@ public class Main {
                 infile = args[++i];
             } else if (args[i].equals("-o") && args.length > i + 1) {
                 outfile = args[++i];
+            } else if (args[i].equals("-ni") && args.length > i + 1) {
+                newickfile = args[++i];
+            } else if (args[i].equals("-nm") && args.length > i + 1) {
+                newickmode = args[++i];
             } else {
                 args_help();
                 System.exit(0);

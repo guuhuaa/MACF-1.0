@@ -11,22 +11,24 @@ public class phyio {
     /**
      * read Newick file and generate TreeList 
      */
-    public static int[][] readAndGenTreeList(String fastapath, String phypath, boolean isNeedReadFasta) throws Exception {
+    public static int[][] readAndGenTreeList(String phypath, String[] labels, int N) throws Exception {
         StringBuilder line = new StringBuilder();
-        String[][] strs = Fasta.readFasta(fastapath);
         try (BufferedReader br = new BufferedReader(new FileReader(phypath))) {
             String temp;
             while ((temp = br.readLine()) != null) {
                 line.append(temp);
             }
         }
-        int N = strs[0].length, global_N = N, idx = 0;
         int[][] treeList = new int[N-1][3];
-        if (isNeedReadFasta) {
+        if (labels != null && labels.length > 0) {
+            N = labels.length;
+            int global_N = N, idx = 0;
+
             Map<String, Integer> map = new HashMap<>();
             for (int i = 0; i < N; i++) {
-                map.put(strs[0][i].substring(1), i);
+                map.put(labels[i].substring(1), i);
             }
+            
             Deque<Integer> stack = new LinkedList<>();
             for (int i = 0; i < line.length(); i++) {
                 if (line.charAt(i) == ':' && line.charAt(i-1) != ')') {
@@ -44,6 +46,7 @@ public class phyio {
                 throw new Exception("idx = " + idx);
             }
         } else {
+            int global_N = N, idx = 0;
             Deque<Integer> stack = new LinkedList<>();
             int numsToAgger = 0;
             for (int i = 0; i < line.length(); i++) {
