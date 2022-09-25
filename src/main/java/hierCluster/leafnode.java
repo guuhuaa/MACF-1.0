@@ -2,12 +2,12 @@ package hierCluster;
 
 public class leafnode extends node {
     private final String name;
-    private final int idx;
-    private int num;
+    private final int idx, num;
 
     public leafnode(String name, int idx) {
         this.name = name;
         this.idx = idx;
+        this.num = idx;
     }
 
     public leafnode(String name, int idx, int num) {

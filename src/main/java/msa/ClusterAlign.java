@@ -73,7 +73,7 @@ public class ClusterAlign {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.print("[" + sdf.format(new Date()) + "] ");
         System.out.print("clustering ... ");
-        FastCluster fastCluster = new FastCluster(strs, 0.85, false);
+        FastCluster fastCluster = new FastCluster(strs, 0.9, false);
         cluIdx = fastCluster.getClusters();
         HashMap<Integer, String[]> multiStrs = new HashMap<>();
         for (int c : cluIdx.keySet()) {

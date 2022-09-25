@@ -8,6 +8,7 @@ import java.util.Date;
 
 import io.Fasta;
 import io.phyio;
+import measure.score;
 import msa.ClusterAlign;
 import msa.centerAlign;
 import msa.treeAlign;
@@ -27,14 +28,19 @@ public class Main {
 
         // 打印时间参数
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.print("[" + sdf.format(new Date()) + "] ");
-        System.out.println("Reading data");
+        if (!mode.equals("spscore")) System.out.print("[" + sdf.format(new Date()) + "] ");
+        if (!mode.equals("spscore")) System.out.println("Reading data");
         // 3. 读取数据
         String[][] res = Fasta.readFasta(infile);
-        System.out.println("[" + sdf.format(new Date()) + "] Done.");
+        if (!mode.equals("spscore")) System.out.println("[" + sdf.format(new Date()) + "] Done.");
         String[] labels = res[0];
         // 4. 打印序列的长度、数目信息
-        String[] strs = Fasta.countInfo(res[1]);
+        String[] strs;
+        if (!mode.equals("spscore")) {
+            strs = Fasta.countInfo(res[1]);
+        } else {
+            strs = res[1];
+        }
         // 5. 匹配比对模式
         switch (mode) {
             // 树比对
@@ -73,6 +79,9 @@ public class Main {
                 // 将比对结果写入到文件中
                 Fasta.writeFasta(strsaln, labels, outfile, true);
                 break;
+            case "spscore":
+                System.out.println(score.sps(strs));
+                break;
             default:
                 args_help();
                 throw new IllegalArgumentException("unkown mode: " + mode);
@@ -93,7 +102,8 @@ public class Main {
             if (args[i].equals("-m") && args.length > i + 1) {
                 if (   args[i + 1].equalsIgnoreCase("mix")
                     || args[i + 1].equalsIgnoreCase("tree")
-                    || args[i + 1].equalsIgnoreCase("center") 
+                    || args[i + 1].equalsIgnoreCase("center")
+                    || args[i + 1].equalsIgnoreCase("spscore") 
                     || args[i + 1].equalsIgnoreCase("withGuideTree")) {
                     mode = args[++i].toLowerCase();
                 } else {
@@ -117,13 +127,15 @@ public class Main {
         if (infile == null) {
             args_help();
             throw new IllegalArgumentException("infile path is null");
-        } else if (outfile == null) {
+        } else if (outfile == null && !mode.equals("spscore")) {
             args_help();
             throw new IllegalArgumentException("outfile path is null");
         } else if (mode == null) {
             mode = "mix";
         }
-        try (Writer ignored = new FileWriter(outfile)) {}
+        if (!mode.equals("spscore")) {
+            try (Writer ignored = new FileWriter(outfile)) {}
+        }   
     }
 
     private static void args_help() {
