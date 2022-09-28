@@ -23,6 +23,10 @@ usage: java -jar jmsa-**.jar  [-m] mode [-i] path [-o] path
 ### Change Log
 ---
 
+- 28-09-2022, version 1.1
+
+  add fast upgma and update the startree method
+
 - 30-11-2021, version 1.0
 
   fix some bugs in multikband
