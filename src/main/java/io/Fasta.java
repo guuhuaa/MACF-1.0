@@ -37,7 +37,7 @@ public class Fasta {
         return new String[][] { labels.toArray(new String[0]), strs.toArray(new String[0]) };
     }
 
-    public static String[] countInfo(String[] strs) {
+    public static void countInfo(String[] strs) {
         Map<Character, Integer> map = new HashMap<Character, Integer>() {
             {
                 put('a', 0);
@@ -46,6 +46,7 @@ public class Fasta {
                 put('t', 0);
                 put('u', 0);
                 put('-', 0);
+                put('n', 0);
             }
         };
         Map<Character, Integer> Amchar = new HashMap<>();
@@ -55,37 +56,40 @@ public class Fasta {
             length += strs[i].length();
             minl = Math.min(minl, strs[i].length());
             maxl = Math.max(maxl, strs[i].length());
+            int tempn = 0;
             for (char c : strs[i].toCharArray()) {
                 if (!map.containsKey(c)) {
+                    tempn++;
                     n++;
                     if (Amchar.containsKey(c))
                         Amchar.put(c, Amchar.get(c) + 1);
                     else
                         Amchar.put(c, 1);
-                } else if (c == '-')
+                } else if (c == '-') {
+                    tempn++;
                     map.put(c, map.get(c) + 1);
+                }
             }
-            if (map.get('-') > 0) {
-                strs[i] = strs[i].replaceAll("-", "");
+            if (tempn > 0) {
+                strs[i] = strs[i].replaceAll("[-]", "");
+                strs[i] = strs[i].replaceAll("[^AGCTUNagctun]", "n");
                 gap += map.get('-');
                 map.put('-', 0);
             }
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.print("[" + sdf.format(new Date()) + "] ");
-        System.out.println("decected " + strs.length + " seqs");
-        System.out.print(
-                "[" + sdf.format(new Date()) + "] max/min/ave len: " + maxl + "/" + minl + "/" + length / strs.length);
-        if (gap > 0)
-            System.out.print("  gaps (deleted): " + gap);
+        System.out.println("[" + sdf.format(new Date()) + "] decected " + strs.length + " seqs");
+        System.out.print("[" + sdf.format(new Date()) + "] max/min/ave len: " + maxl + "/" + minl + "/" + length / strs.length);
+        if (gap > 0) {
+            System.out.print("  gaps(deleted):" + gap);
+        }
         if (n > 0) {
-            System.out.print("  ambiguous characters: " + n);
-            // for (char c : Amchar.keySet()) {
-            // System.out.println(" " + c + " " + Amchar.get(c));
-            // }
+            System.out.print("  ambiguous characters:" + n);
+            for (char c : Amchar.keySet()) {
+                System.out.print(" " + c + ":" + Amchar.get(c));
+            }
         }
         System.out.println();
-        return strs;
     }
 
     /**

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="MACF:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b9f26fd2-b386-42a9-8b11-dfcc6a4a3920" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/MACF_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MACF.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test_data.tar.xz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/NeighborJoining.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/NeighborJoining.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/clusterTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/clusterTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/effupgma.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/effupgma.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/guidetree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/guidetree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/leafnode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/leafnode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/midnode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/midnode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hierCluster/upgma.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hierCluster/upgma.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/index/BWT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/index/BWT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/index/FMIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/index/FMIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/index/GetRank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/index/GetRank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/index/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/index/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/index/STree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/index/STree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/Fasta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/Fasta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/phyio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/phyio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/string.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/string.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/measure/kmer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/measure/kmer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/measure/lcs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/measure/lcs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/measure/score.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/measure/score.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/measure/starDist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/measure/starDist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/measure/strsdist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/measure/strsdist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/msa/ClusterAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/msa/ClusterAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/msa/centerAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/msa/centerAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/msa/treeAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/msa/treeAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/DP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/DP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/FMAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/FMAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/FastMultiAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/FastMultiAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/Kband.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/Kband.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/PSA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/PSA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/STAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/STAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/kb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/kb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/multiDP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/multiDP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/multiKband.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/multiKband.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/profileAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/profileAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/psa/subStringAlign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/psa/subStringAlign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sample/sampleStrings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/sampleStrings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/strsCluster/CenCluster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/strsCluster/CenCluster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/strsCluster/FastCluster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/strsCluster/FastCluster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/strsCluster/NewCenCluster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/strsCluster/NewCenCluster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/strsCluster/exCDhit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/strsCluster/exCDhit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2Fr31FkXjuTViZa65WIY1NUYSLh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Project.color&quot;: &quot;0d615f&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/siyang/Data/MyWork/Bio/MACF&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MTConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main.ProfileAlign" />
+      <module name="MACF" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b9f26fd2-b386-42a9-8b11-dfcc6a4a3920" name="Changes" comment="" />
+      <created>1665236161194</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665236161194</updated>
+      <workItem from="1665236163531" duration="301000" />
+      <workItem from="1665236475840" duration="1091000" />
+      <workItem from="1666846698653" duration="141000" />
+      <workItem from="1666847219888" duration="1118000" />
+      <workItem from="1668177802546" duration="802000" />
+      <workItem from="1668253723767" duration="3400000" />
+      <workItem from="1668522167756" duration="101000" />
+      <workItem from="1668668162449" duration="3033000" />
+      <workItem from="1668851106755" duration="332000" />
+      <workItem from="1669117407805" duration="1643000" />
+      <workItem from="1669269472037" duration="1387000" />
+      <workItem from="1669707262183" duration="3067000" />
+      <workItem from="1669714266316" duration="245000" />
+      <workItem from="1669714539613" duration="183000" />
+      <workItem from="1669867421046" duration="733000" />
+      <workItem from="1669883512310" duration="682000" />
+      <workItem from="1669905697322" duration="388000" />
+      <workItem from="1669906840418" duration="1172000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

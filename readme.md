@@ -23,6 +23,10 @@ usage: java -jar jmsa-**.jar  [-m] mode [-i] path [-o] path
 ### Change Log
 ---
 
+- 10-01-2022, version 1.2
+  
+  update socre and distance method
+
 - 28-09-2022, version 1.1
 
   add fast upgma and update the startree method

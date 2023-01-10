@@ -180,14 +180,14 @@ public abstract class subStringAlign {
             return regions;
         }
         int idx = 0;
+        int ave = 0;
+        for (int[] region : regions)
+            ave += (region[2] - region[0]);
+        ave /= regions.length;
         // for first one
         while (idx < regions.length) {
-            int ave = 0;
-            for (int[] region : regions)
-                ave += (region[2] - region[0]);
-            ave /= regions.length;
             int forward = regions[idx][2] - regions[idx][0];
-            if (forward > ave && Math.abs(forward) >= regions[0][1])
+            if (forward > ave && Math.abs(forward) >= regions[idx][1])
                 regions[idx++] = new int[3];
             else
                 break;

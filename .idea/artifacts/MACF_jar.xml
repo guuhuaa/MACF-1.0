@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MACF:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MACF_jar</output-path>
+    <root id="archive" name="MACF.jar">
+      <element id="module-output" name="MACF" />
+    </root>
+  </artifact>
+</component>

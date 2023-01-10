@@ -35,6 +35,8 @@ public class strsdist {
         } else if (mode.equals("lcs")) {
             lcs ls = new lcs(strs);
             return ls.getDismatrix();
+        } else if (mode.equals("aligned")) {
+            return starDist.getDist2D(strs);
         } else {
             throw new IllegalArgumentException("unkown mode: " + mode);
         }

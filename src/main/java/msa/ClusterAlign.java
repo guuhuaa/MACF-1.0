@@ -123,6 +123,7 @@ public class ClusterAlign {
     }
 
     private Map<Integer, String[]> cluAlign(Map<Integer, String[]> multiStrs) {
+        mode1 = "c";
         if (multiStrs.size() <= 1) {
             int length = 0;
             for (int c : multiStrs.keySet())

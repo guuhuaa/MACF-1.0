@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import hierCluster.guidetree;
 import io.Fasta;
 import io.phyio;
 import measure.score;
@@ -26,25 +27,18 @@ public class Main {
         // 2. 打印输入参数
         print_args();
 
-        // 打印时间参数
+        // 参数
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (!mode.equals("spscore")) System.out.print("[" + sdf.format(new Date()) + "] ");
-        if (!mode.equals("spscore")) System.out.println("Reading data");
-        // 3. 读取数据
-        String[][] res = Fasta.readFasta(infile);
-        if (!mode.equals("spscore")) System.out.println("[" + sdf.format(new Date()) + "] Done.");
-        String[] labels = res[0];
-        // 4. 打印序列的长度、数目信息
-        String[] strs;
-        if (!mode.equals("spscore")) {
-            strs = Fasta.countInfo(res[1]);
-        } else {
-            strs = res[1];
-        }
+        String[][] res;
+        String[] labels, strs;
+
         // 5. 匹配比对模式
         switch (mode) {
             // 树比对
             case "tree":
+                res = readData(sdf);
+                labels = res[0];
+                strs = res[1];
                 // cluster模式：StarTree模式构建指导树
                 treeAlign talign = new treeAlign(strs, "cluster", false);
                 // 得到比对结果
@@ -54,17 +48,33 @@ public class Main {
                 break;
             // 星比对
             case "center":
+                res = readData(sdf);
+                labels = res[0];
+                strs = res[1];
                 centerAlign calign = new centerAlign(strs, "fmindex");
                 String[] strsCal = calign.getStrsAlign();
                 Fasta.writeFasta(strsCal, labels, outfile, true);
                 break;
             // 混合策略比对
             case "mix":
+                res = readData(sdf);
+                labels = res[0];
+                strs = res[1];
                 ClusterAlign clalign = new ClusterAlign(strs, "t", "t2");
                 String[] strsClal = clalign.getStrsAlign();
                 Fasta.writeFasta(strsClal, labels, outfile, true);
                 break;
+            case "startree":
+                res = readData(sdf);
+                strs = res[1];
+                // clusterTree cTree = new clusterTree(strs);
+                guidetree gtree = new guidetree(strs, "upgma");
+                gtree.genTreeList(true);
+                break;
             case "withguidetree":
+                res = readData(sdf);
+                labels = res[0];
+                strs = res[1];
                 int[][] treelist;
                 if (newickmode.equalsIgnoreCase("mbed")) {
                     treelist = phyio.readAndGenTreeList(newickfile, labels, labels.length);
@@ -80,12 +90,23 @@ public class Main {
                 Fasta.writeFasta(strsaln, labels, outfile, true);
                 break;
             case "spscore":
-                System.out.println(score.sps(strs));
+                System.out.println("Avg SpScore: " + score.avgSps(infile));
                 break;
             default:
                 args_help();
                 throw new IllegalArgumentException("unkown mode: " + mode);
         }
+    }
+
+    private static String[][] readData(SimpleDateFormat sdf) throws IOException {
+        System.out.println("[" + sdf.format(new Date()) + "] Reading data");
+        String[][] res = Fasta.readFasta(infile);
+        System.out.println("[" + sdf.format(new Date()) + "] Done.");
+        // 打印序列的长度、数目信息
+        if (!mode.equals("startree")) {
+            Fasta.countInfo(res[1]);
+        }
+        return res;
     }
 
     private static void parse(String[] args) throws IOException {
@@ -104,6 +125,7 @@ public class Main {
                     || args[i + 1].equalsIgnoreCase("tree")
                     || args[i + 1].equalsIgnoreCase("center")
                     || args[i + 1].equalsIgnoreCase("spscore") 
+                    || args[i + 1].equalsIgnoreCase("startree") 
                     || args[i + 1].equalsIgnoreCase("withGuideTree")) {
                     mode = args[++i].toLowerCase();
                 } else {
@@ -127,15 +149,15 @@ public class Main {
         if (infile == null) {
             args_help();
             throw new IllegalArgumentException("infile path is null");
-        } else if (outfile == null && !mode.equals("spscore")) {
+        } else if (outfile == null && !(mode.equals("spscore") || mode.equals("startree"))) {
             args_help();
             throw new IllegalArgumentException("outfile path is null");
         } else if (mode == null) {
             mode = "mix";
         }
-        if (!mode.equals("spscore")) {
+        if (!(mode.equals("spscore") || mode.equals("startree"))) {
             try (Writer ignored = new FileWriter(outfile)) {}
-        }   
+        }
     }
 
     private static void args_help() {

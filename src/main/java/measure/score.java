@@ -1,69 +1,113 @@
 package measure;
 
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-import io.string;
 import msa.centerAlign;
 import sample.sampleStrings;
 
 public class score {
-
-    private final static int ms = 7, mis = -3;
-    private final static int d = 15, e = 2;
-
-    public static double sp(String A, String B) {
-        int gap = 0;
-        boolean state = false;
-        long score = 0;
-        assert A.length() == B.length();
-        for (int i = 0; i < A.length(); i++) {
-            if (A.charAt(i) == B.charAt(i)) {
-                if (A.charAt(i) == '-')
-                    gap++;
-                else {
-                    score += ms;
-                    state = false;
-                }
-            } else if (A.charAt(i) == '-' || B.charAt(i) == '-') {
-                score -= state ? e : d;
-                state = true;
-            } else {
-                score += mis;
-                state = false;
-            }
-        }
-        return (double) score / ((A.length() - gap) * ms);
-    }
-
     /**
-     * compute the sps score in [0, 1]
+     * compute the sps score
      * 
-     * @param strs
      * @return score
+     * @throws IOException
      */
-    public static double sps(String[] strs) {
-        long nums = strs.length, len = strs[0].length();
-        double match = 0;
-        for (int i = 0; i < len; i++) {
-            long tempmatch = 0;
-            String scren = (i + 1) + "/" + len;
-            System.out.print(scren);
-            HashMap<Character, Long> al = new HashMap<>();
-            for (String str : strs) {
-                char c = str.charAt(i);
-                al.put(c, al.containsKey(c) ? al.get(c) + 1 : 1);
+    public static double avgSps(String path) throws IOException {
+        int length = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String temp;
+            StringBuilder line = new StringBuilder();
+            
+            while ((temp = br.readLine()) != null) {
+                if (line.length() > 0 && temp.charAt(0) == '>') {
+                    length = line.length();
+                    break;
+                } else if (temp.length() > 0 && temp.charAt(0) != '>') {
+                    line.append(temp);
+                }
             }
-            long numg = al.containsKey('-') ? al.get('-') : 0;
-            long numn = al.containsKey('n') ? al.get('n') : 0;
-            for (char c : al.keySet()) {
-                if (c != '-')
-                    tempmatch += (al.get(c) * (al.get(c) - 1) / 2);
-            }
-            tempmatch += (numn * (nums - numg - numn));
-            match += ((double) tempmatch / (double) (nums * (nums - 1) / 2));
-            System.out.print(string.repeat("\b", scren.length()));
         }
-        return match / len;
+        // "A" "G" "C" "T/U" "-" "N"
+        System.out.println("     length: " + length);
+        int size = 0;
+        int[][] alnums = new int[length][6];
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String temp;
+            StringBuilder line = new StringBuilder();
+            
+            while ((temp = br.readLine()) != null) {
+                if (temp.length() > 0 && temp.charAt(0) == '>') {
+                    size++;
+                    int idx = 0;
+                    for (char c : line.toString().toCharArray()) {
+                        if (c == 'A' || c == 'a') {
+                            alnums[idx][0]++;
+                        } else if (c == 'G' || c == 'g') {
+                            alnums[idx][1]++;
+                        } else if (c == 'C' || c == 'c') {
+                            alnums[idx][2]++;
+                        } else if (c == 'U' || c == 'u' || c == 'T' || c == 't') {
+                            alnums[idx][3]++;
+                        } else if (c == '-') {
+                            alnums[idx][4]++;
+                        } else {
+                            alnums[idx][5]++;
+                        }
+                        idx++;
+                    }
+
+                    line = new StringBuilder();
+                } else if (temp.length() > 0 && temp.charAt(0) != '>') {
+                    line.append(temp);
+                }
+            }
+            int idx = 0;
+            for (char c : line.toString().toCharArray()) {
+                if (c == 'A' || c == 'a') {
+                    alnums[idx][0]++;
+                } else if (c == 'G' || c == 'g') {
+                    alnums[idx][1]++;
+                } else if (c == 'C' || c == 'c') {
+                    alnums[idx][2]++;
+                } else if (c == 'U' || c == 'u' || c == 'T' || c == 't') {
+                    alnums[idx][3]++;
+                } else if (c == '-') {
+                    alnums[idx][4]++;
+                } else {
+                    alnums[idx][5]++;
+                }
+                idx++;
+            }
+        }
+        System.out.println("       nums: " + size);
+        double avgscore = 0;
+        int ms = 1, mis = -1, gap = -2, odd = size, even = size - 1;
+        if ((size & 1) == 0) {
+            odd--;
+            even++;
+        }
+        even >>= 1;
+        for (int i = 0; i < length; i++) {
+            long match = 0, mismatch, gapmis;
+            for (int j = 0; j < 4; j++) {
+                match += (long)alnums[i][j] * (alnums[i][j] - 1);
+            }
+            match >>= 1;
+            match += (long) alnums[i][5] * (alnums[i][0] + alnums[i][1] + alnums[i][2] + alnums[i][3]);
+            match += (long) (alnums[i][5] >> 1) * (alnums[i][5] - 1);
+            mismatch = (alnums[i][0] + alnums[i][1]) * ((long)alnums[i][2] + alnums[i][3]);
+            mismatch += (long) alnums[i][0] * alnums[i][1] + (long)alnums[i][2] * alnums[i][3];
+            gapmis = (alnums[i][0] + alnums[i][1] + alnums[i][2] + alnums[i][3] + alnums[i][5]) * (long)alnums[i][4];
+
+            avgscore += ((match / (double)odd) / (double) even) * (double)ms;
+            avgscore += ((mismatch / (double)odd) / (double) even) * (double)mis;
+            avgscore += ((gapmis / (double)odd) / (double) even) * (double)gap;
+        }
+
+        return avgscore;
     }
 
 

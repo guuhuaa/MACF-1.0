@@ -41,7 +41,22 @@ public class starDist {
         return dismatrix;
     }
 
-    private double getDist(String str1, String str2) {
+    /**
+     * 计算序列间两两之间的距离
+     */
+    public static double[][] getDist2D(String[] strs) {
+        int num = strs.length;
+        double[][] dismatrix = new double[num][num];
+        for (int i = 0; i < num; i++) {
+            for (int j = i + 1; j < num; j++) {
+                // 不相似度
+                dismatrix[i][j] = dismatrix[j][i] = 1 - getDist(strs[i], strs[j]);
+            }
+        }
+        return dismatrix;
+    }
+
+    private static double getDist(String str1, String str2) {
         int match = 0, gap = 0, len = str1.length();
         assert (str1.length() == str2.length());
         for (int i = 0; i < str1.length(); i++) {

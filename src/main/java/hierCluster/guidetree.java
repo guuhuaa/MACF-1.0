@@ -3,14 +3,24 @@ package hierCluster;
 import measure.strsdist;
 
 public class guidetree {
-    private final String[] strs;
+    private final String[] strs,strsed;
     private final String mode;
 
     /**
-     * mode: "nj" or "upgma"
+     * mode: "nj" or "upgma" or "cluster"
      */
     public guidetree(String[] strs, String mode) {
         this.strs = strs;
+        this.strsed = null;
+        this.mode = mode;
+    }
+
+    /**
+     * mode: "nj" or "upgma" or "cluster"
+     */
+    public guidetree(String[] strs, String[] strsed, String mode) {
+        this.strs = strs;
+        this.strsed = strsed;
         this.mode = mode;
     }
 
@@ -23,7 +33,12 @@ public class guidetree {
             clusterTree cTree = new clusterTree(strs);
             return cTree.TreeList.toArray(new int[0][]);
         }
-        strsdist sdist = new strsdist(strs, "kmer");
+        strsdist sdist;
+        if (strsed != null) {
+            sdist = new strsdist(strsed, "aligned");
+        } else {
+            sdist = new strsdist(strs, "kmer");
+        }
         double[][] simMatrix = sdist.getDismatrix2D();
         if (mode.equals("upgma")) {
             // upgma htree = new upgma(simMatrix);

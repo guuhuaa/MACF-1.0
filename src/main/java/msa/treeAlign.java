@@ -4,7 +4,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-import hierCluster.clusterTree;
+// import hierCluster.clusterTree;
 import hierCluster.guidetree;
 import io.string;
 import measure.*;
@@ -80,13 +80,14 @@ public class treeAlign {
      * Choose one Gen tree mode "nj" or "upgma" or "cluster" and choose silent or
      * output
      */
-    public treeAlign(String[] strs, String[] strsed, boolean aligned, int kk) {
+    public treeAlign(String[] strs, String[] strsed, boolean aligned) {
         this.num = strs.length;
         this.silent = false;
         this.aligned = aligned;
-        this.Treemode = "cluster";
+        this.Treemode = "upgma";
         this.straligned = strsed;
-        this.kk = kk;
+        // 得到一个合适的k值初始值
+        this.kk = score.getK(strs, false);
         Align(strs);
         reOrder();
     }
@@ -129,6 +130,8 @@ public class treeAlign {
             String[] strsB = getStrsList(strs, strsList, readyAlign[1]);
             strsList.put(readyAlign[2], profileAlign.Align(strsA, strsB, alphabet, kk));
             labelsList.put(readyAlign[2], combineLabels(labelsList, readyAlign[0], readyAlign[1]));
+            strsList.remove(readyAlign[0]);
+            strsList.remove(readyAlign[1]);
             labelsList.remove(readyAlign[0]);
             labelsList.remove(readyAlign[1]);
 
@@ -162,13 +165,13 @@ public class treeAlign {
         straligned = temp;
     }
 
-    private int[] getLens(String[] strs) {
-        int[] res = new int[strs.length];
-        for (int i = 0; i < strs.length; i++) {
-            res[i] = strs[i].length();
-        }
-        return res;
-    }
+    // private int[] getLens(String[] strs) {
+    //     int[] res = new int[strs.length];
+    //     for (int i = 0; i < strs.length; i++) {
+    //         res[i] = strs[i].length();
+    //     }
+    //     return res;
+    // }
 
     private int[][] genTreeList(String[] strs) {
         if (this.treelist != null) {
@@ -179,8 +182,10 @@ public class treeAlign {
             guidetree gTree = new guidetree(strs, this.Treemode);
             return gTree.genTreeList(silent);
         } else {
-            clusterTree cTree = new clusterTree(straligned, getLens(strs));
-            return cTree.TreeList.toArray(new int[0][]);
+            // clusterTree cTree = new clusterTree(straligned, getLens(strs));
+            // return cTree.TreeList.toArray(new int[0][]);
+            guidetree gTree = new guidetree(strs, straligned, this.Treemode);
+            return gTree.genTreeList(silent);
         }
     }
 
